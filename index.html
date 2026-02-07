@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour Chimène 💖 - Saint-Valentin</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <!-- Configuration: 
+         - Images des princesses: assets/images/pocahontas.jpg, tiana.jpg, vaiana.jpg
+         - Logo au dos des cartes: assets/images/card-back-logo.png
+         - Image de Chimène Disney: assets/images/chimene-disney.jpg
+         - Musique: assets/audio/butterfly.mp3
+    -->
+
+    <!-- Audio préchargé (lecture déclenchée par le déverrouillage de la carte finale) -->
+    <audio id="music" preload="auto">
+        <source src="assets/audio/butterfly.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- En-tête romantique -->
+    <header>
+        <h1>✨ Un Conte pour Chimène ✨</h1>
+        <p class="subtitle">Clique sur les cartes pour découvrir les histoires...</p>
+    </header>
+
+    <!-- Conteneur principal avec carte et panneau de texte -->
+    <main class="main-container">
+        <!-- Section des cartes Cover Flow -->
+        <div class="cards-section">
+            <div class="cards-stack-container">
+                <div class="cards-stack">
+                    <!-- Carte 1: Pocahontas -->
+                    <div class="card" data-princess="pocahontas" data-index="0">
+                        <div class="card-inner">
+                            <div class="card-back">
+                                <img src="assets/images/card-back-logo.png" alt="Logo" class="logo">
+                            </div>
+                            <div class="card-front">
+                                <img src="assets/images/pocahontas.jpg" alt="Pocahontas">
+                                <h2>Pocahontas</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carte 2: Tiana -->
+                    <div class="card" data-princess="tiana" data-index="1">
+                        <div class="card-inner">
+                            <div class="card-back">
+                                <img src="assets/images/card-back-logo.png" alt="Logo" class="logo">
+                            </div>
+                            <div class="card-front">
+                                <img src="assets/images/tiana.jpg" alt="Tiana">
+                                <h2>Tiana</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carte 3: Vaiana -->
+                    <div class="card" data-princess="vaiana" data-index="2">
+                        <div class="card-inner">
+                            <div class="card-back">
+                                <img src="assets/images/card-back-logo.png" alt="Logo" class="logo">
+                            </div>
+                            <div class="card-front">
+                                <img src="assets/images/vaiana.jpg" alt="Vaiana">
+                                <h2>Vaiana</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Carte 4: Verrouillée (Notre Histoire) -->
+                    <div class="card locked" id="final-card" data-index="3">
+                        <div class="card-inner">
+                            <div class="card-back">
+                                <img src="assets/images/card-back-logo.png" alt="Logo" class="logo locked-logo">
+                            </div>
+                            <div class="card-front">
+                                <img src="assets/images/chimene-disney.jpg" alt="Chimène" class="chimene-image">
+                                <h2>Notre Histoire</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boutons de navigation -->
+                <div class="nav-buttons">
+                    <button class="nav-btn prev-btn" id="prev-btn">←</button>
+                    <button class="nav-btn next-btn" id="next-btn">→</button>
+                </div>
+
+                <!-- Indicateur de carte -->
+                <div class="card-indicator">
+                    <span class="current-card">1</span> / <span class="total-cards">4</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panneau de texte pour afficher les histoires -->
+        <div class="story-panel" id="story-panel">
+            <button class="close-story-btn" id="close-story-btn">✕</button>
+            <div class="story-content" id="story-content">
+                <!-- Le contenu de l'histoire sera inséré ici -->
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>

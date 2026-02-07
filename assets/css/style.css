@@ -1,0 +1,721 @@
+/* ============================================
+   CONFIGURATION & VARIABLES
+   ============================================ */
+:root {
+    --color-primary: #f8b4d9;
+    --color-secondary: #e8a0bf;
+    --color-accent: #ffd700;
+    --color-bg: #fff5f8;
+    --color-text: #4a4a4a;
+    --color-text-light: #ffffff;
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-overlay: rgba(0, 0, 0, 0.7);
+    --transition-speed: 0.3s;
+}
+
+/* ============================================
+   STYLES GÉNÉRAUX
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Curseur de défilement rose */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #ffe5f0;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #f8b4d9 0%, #e8a0bf 100%);
+    border-radius: 10px;
+    border: 2px solid #ffe5f0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #e8a0bf 0%, #d88aaf 100%);
+}
+
+body {
+    font-family: 'Georgia', 'Palatino', serif;
+    background: linear-gradient(135deg, #ffeef8 0%, #ffe5f0 50%, #ffd9ea 100%);
+    color: var(--color-text);
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+/* Animation d'étoiles scintillantes en arrière-plan */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 80%, white, transparent);
+    background-size: 200% 200%;
+    animation: sparkle 8s ease-in-out infinite;
+    pointer-events: none;
+    opacity: 0.6;
+    z-index: 0;
+}
+
+@keyframes sparkle {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* ============================================
+   EN-TÊTE
+   ============================================ */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #d946a6;
+    text-shadow: 2px 2px 4px var(--color-shadow);
+    margin-bottom: 10px;
+    animation: fadeInDown 1s ease-out;
+}
+
+header .subtitle {
+    font-size: 1.2rem;
+    color: #b83280;
+    font-style: italic;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   CONTENEUR PRINCIPAL
+   ============================================ */
+.main-container {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    align-items: flex-start;
+}
+
+/* Section des cartes */
+.cards-section {
+    flex: 1;
+    transition: all 0.6s ease;
+}
+
+/* Quand le panneau est ouvert, réduire la section des cartes */
+.cards-section.minimized {
+    flex: 0 0 350px;
+}
+
+.cards-stack-container {
+    width: 100%;
+}
+
+.cards-stack {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    perspective: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    transition: all 0.6s ease;
+}
+
+/* Réduire la taille des cartes quand le panneau est ouvert */
+.cards-section.minimized .cards-stack {
+    height: 350px;
+}
+
+/* ============================================
+   STYLES DES CARTES - COVER FLOW 3D
+   ============================================ */
+.card {
+    position: absolute;
+    width: 280px;
+    height: 400px;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    transform-style: preserve-3d;
+}
+
+/* Réduire la taille des cartes quand minimisées */
+.cards-section.minimized .card {
+    width: 210px;
+    height: 300px;
+}
+
+/* Carte au centre (active) */
+.card.center {
+    z-index: 100;
+    transform: translateX(0) translateZ(0) rotateY(0deg) scale(1);
+    opacity: 1;
+}
+
+/* Carte à gauche */
+.card.left-1 {
+    z-index: 90;
+    transform: translateX(-350px) translateZ(-150px) rotateY(45deg) scale(0.85);
+    opacity: 0.7;
+}
+
+.card.left-2 {
+    z-index: 80;
+    transform: translateX(-550px) translateZ(-250px) rotateY(50deg) scale(0.7);
+    opacity: 0.5;
+}
+
+.card.left-3 {
+    z-index: 70;
+    transform: translateX(-700px) translateZ(-350px) rotateY(55deg) scale(0.6);
+    opacity: 0.3;
+}
+
+/* Carte à droite */
+.card.right-1 {
+    z-index: 90;
+    transform: translateX(350px) translateZ(-150px) rotateY(-45deg) scale(0.85);
+    opacity: 0.7;
+}
+
+.card.right-2 {
+    z-index: 80;
+    transform: translateX(550px) translateZ(-250px) rotateY(-50deg) scale(0.7);
+    opacity: 0.5;
+}
+
+.card.right-3 {
+    z-index: 70;
+    transform: translateX(700px) translateZ(-350px) rotateY(-55deg) scale(0.6);
+    opacity: 0.3;
+}
+
+/* Ajustements pour les cartes minimisées */
+.cards-section.minimized .card.left-1 {
+    transform: translateX(-250px) translateZ(-100px) rotateY(45deg) scale(0.8);
+}
+
+.cards-section.minimized .card.right-1 {
+    transform: translateX(250px) translateZ(-100px) rotateY(-45deg) scale(0.8);
+}
+
+/* Cartes cachées (trop loin) */
+.card.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+/* Effet de flip */
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Faces de la carte */
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background: linear-gradient(135deg, #ffffff 0%, #fff0f5 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px var(--color-shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.card-back {
+    transform: rotateY(0deg);
+    background: linear-gradient(135deg, #ffd9ea 0%, #ffb6d9 100%);
+}
+
+.card-front {
+    transform: rotateY(180deg);
+}
+
+.card:hover.center {
+    transform: translateX(0) translateZ(20px) rotateY(0deg) scale(1.05);
+}
+
+/* Logo au dos des cartes */
+.card-back .logo {
+    width: 70%;
+    max-width: 180px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* Images des princesses */
+.card-front img {
+    width: 100%;
+    height: 65%;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.card-front h2 {
+    font-size: 1.5rem;
+    color: #c2185b;
+    text-align: center;
+    text-shadow: 1px 1px 2px var(--color-shadow);
+}
+
+/* ============================================
+   CARTE VERROUILLÉE
+   ============================================ */
+.card.locked .card-back {
+    background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+}
+
+.card.locked .locked-logo {
+    filter: grayscale(1) opacity(0.5);
+}
+
+/* Carte déverrouillée */
+.card.unlocked {
+    animation: unlock 0.8s ease-out;
+}
+
+.card.unlocked .card-back {
+    background: linear-gradient(135deg, #ffd700 0%, #ffb6c1 100%);
+}
+
+.card.unlocked .locked-logo {
+    filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.6));
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes unlock {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1) rotate(5deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* ============================================
+   PANNEAU DE TEXTE
+   ============================================ */
+.story-panel {
+    flex: 0 0 0;
+    opacity: 0;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #ffffff 0%, #fff5f8 100%);
+    border-radius: 25px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    transition: all 0.6s ease;
+    max-height: 600px;
+}
+
+.story-panel.active {
+    flex: 0 0 650px;
+    opacity: 1;
+}
+
+.close-story-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #c2185b;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    box-shadow: 0 4px 8px var(--color-shadow);
+    z-index: 10;
+}
+
+.close-story-btn:hover {
+    background: #d81b60;
+    transform: rotate(90deg);
+}
+
+.story-content h2 {
+    color: #c2185b;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 1px 1px 2px var(--color-shadow);
+}
+
+.story-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--color-text);
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+/* Styles pour la carte finale */
+.final-content {
+    text-align: center;
+}
+
+.final-content img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    margin: 20px auto;
+    box-shadow: 0 10px 30px var(--color-shadow);
+    border: 5px solid #ffd700;
+}
+
+.final-content .story-text {
+    text-align: justify;
+    margin: 20px 0;
+}
+
+.valentine-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff1744 0%, #f50057 100%);
+    color: white;
+    padding: 15px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-top: 20px;
+    box-shadow: 0 8px 20px rgba(255, 23, 68, 0.4);
+    transition: all var(--transition-speed);
+    animation: pulse 2s ease-in-out infinite;
+    cursor: pointer;
+    border: none;
+}
+
+.valentine-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 30px rgba(255, 23, 68, 0.6);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* ============================================
+   BOUTONS DE NAVIGATION
+   ============================================ */
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.nav-btn {
+    background: linear-gradient(135deg, #f8b4d9 0%, #e8a0bf 100%);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    box-shadow: 0 4px 12px var(--color-shadow);
+}
+
+.nav-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.nav-btn:active {
+    transform: scale(1.05);
+}
+
+/* ============================================
+   INDICATEUR DE CARTE
+   ============================================ */
+.card-indicator {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #c2185b;
+    font-weight: bold;
+}
+
+/* ============================================
+   STYLES RESPONSIVE
+   ============================================ */
+@media (max-width: 1200px) {
+/* ============================================
+   STYLES RESPONSIVE - MOBILE FIRST
+   ============================================ */
+
+/* Tablettes et petits écrans */
+@media (max-width: 1200px) {
+    .main-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .cards-section {
+        width: 100%;
+    }
+    
+    .cards-section.minimized {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    
+    .story-panel.active {
+        flex: 1;
+        max-height: 500px;
+        width: 100%;
+    }
+}
+
+/* Smartphones - Overlay plein écran */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    header .subtitle {
+        font-size: 1rem;
+    }
+    
+    /* Sur mobile, cacher les cartes quand le panneau est ouvert */
+    .cards-section.minimized {
+        display: none;
+    }
+    
+    .cards-stack {
+        height: 450px;
+        perspective: 1000px;
+    }
+
+    .card {
+        width: 260px;
+        height: 380px;
+    }
+    
+    /* Ajuster les positions pour mobile */
+    .card.left-1 {
+        transform: translateX(-300px) translateZ(-100px) rotateY(45deg) scale(0.8);
+    }
+    
+    .card.right-1 {
+        transform: translateX(300px) translateZ(-100px) rotateY(-45deg) scale(0.8);
+    }
+    
+    .card.left-2, .card.right-2, .card.left-3, .card.right-3 {
+        opacity: 0;
+    }
+    
+    /* Panneau en overlay plein écran sur mobile */
+    .story-panel {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        padding: 70px 20px 20px 20px !important;
+        z-index: 1000 !important;
+        margin: 0 !important;
+    }
+    
+    .story-panel.active {
+        flex: none !important;
+    }
+    
+    .close-story-btn {
+        top: 15px !important;
+        right: 15px !important;
+        width: 50px;
+        height: 50px;
+        font-size: 1.8rem;
+    }
+
+    .story-content h2 {
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+    }
+
+    .story-content p {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .valentine-button {
+        font-size: 1.1rem;
+        padding: 14px 35px;
+    }
+    
+    .final-content img {
+        max-width: 100%;
+        margin: 15px auto;
+    }
+    
+    /* Boutons de navigation plus grands sur mobile */
+    .nav-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 2rem;
+    }
+    
+    .card-indicator {
+        font-size: 1.1rem;
+    }
+}
+
+/* Très petits écrans */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+    
+    header .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .cards-stack {
+        height: 400px;
+    }
+
+    .card {
+        width: 220px;
+        height: 320px;
+    }
+    
+    .card.left-1 {
+        transform: translateX(-250px) translateZ(-80px) rotateY(45deg) scale(0.75);
+    }
+    
+    .card.right-1 {
+        transform: translateX(250px) translateZ(-80px) rotateY(-45deg) scale(0.75);
+    }
+
+    .story-panel {
+        padding: 60px 15px 15px 15px !important;
+    }
+    
+    .story-content h2 {
+        font-size: 1.4rem;
+    }
+
+    .story-content p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .valentine-button {
+        font-size: 1rem;
+        padding: 12px 28px;
+    }
+    
+    .nav-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+    }
+}
