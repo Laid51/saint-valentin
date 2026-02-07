@@ -58,7 +58,7 @@ const stories = {
                     
                     <p>Sur le chemin, il fit escale chez un cousin, sur une île baignée de soleil. Ce n'était qu'un arrêt, un moment de repos. Rien de plus.</p>
                     
-                    <p>Et pourtant…C'est là qu'il la vit.Toi, ma princesse de Madagascar.</p>
+                    <p>Et pourtant…C'est là qu'il la vit.Toi, ma git statusprincesse de Madagascar.</p>
                     
                     <p>Accueillie ce jour-là comme une invitée précieuse, elle n'avait ni couronne visible, ni trône doré mais quelque chose, dans sa présence, imposait le respect et l'admiration. Un regard doux, une élégance discrète, une lumière tranquille. À cet instant précis, le prince comprit que certains destins ne préviennent pas.Ils apparaissent.</p>
                     
